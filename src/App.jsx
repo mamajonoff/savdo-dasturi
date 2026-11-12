@@ -12,6 +12,10 @@ import Taminotchilar from './pages/Taminotchilar';
 import Xodimlar from './pages/Xodimlar';
 import Kirim from './pages/Kirim';
 import Xarajatlar from './pages/Xarajatlar';
+import Tolov from './pages/Tolov';
+import TovarQaytarish from './pages/TovarQaytarish';
+import Savdo from './pages/Savdo';
+import Hisobotlar from './pages/Hisobotlar';
 import Sozlamalar from './pages/Sozlamalar';
 
 export default function App() {
@@ -22,7 +26,7 @@ export default function App() {
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem('app_settings');
     if (saved) { try { return JSON.parse(saved); } catch (e) {} }
-    return { shopName: "Mening Do'konim", showCostPrice: true, defaultPriceType: 'chakana' };
+    return { shopName: "Mening Do'konim", showCostPrice: true, defaultPriceType: 'chakana', password: '' };
   });
 
   useEffect(() => {
@@ -32,9 +36,7 @@ export default function App() {
   const [employees, setEmployees] = useState(() => {
     const saved = localStorage.getItem('app_employees');
     if (saved) { try { return JSON.parse(saved); } catch (e) {} }
-    return [
-      { id: 1, name: "Ali Valiyev", phone: "+998 90 123 45 67", salary: 4500000 }
-    ];
+    return [{ id: 1, name: "Ali Valiyev", phone: "+998 90 123 45 67", salary: 4500000 }];
   });
 
   useEffect(() => {
@@ -57,9 +59,7 @@ export default function App() {
   const [customers, setCustomers] = useState(() => {
     const saved = localStorage.getItem('app_customers');
     if (saved) { try { return JSON.parse(saved); } catch (e) {} }
-    return [
-      { id: 1, name: "Anvar Toshmatov", phone: "+998 90 555 44 33", address: "Chilonzor", balance: 150000, hasOperations: true }
-    ];
+    return [{ id: 1, name: "Anvar Toshmatov", phone: "+998 90 555 44 33", address: "Chilonzor", balance: 150000, hasOperations: true }];
   });
 
   useEffect(() => {
@@ -69,25 +69,17 @@ export default function App() {
   const [suppliers, setSuppliers] = useState(() => {
     const saved = localStorage.getItem('app_suppliers');
     if (saved) { try { return JSON.parse(saved); } catch (e) {} }
-    return [
-      { id: 1, name: "Grand Qurilish MCHJ", phone: "+998 71 200 11 22", address: "Sergeli", balance: 0, hasOperations: true }
-    ];
+    return [{ id: 1, name: "Grand Qurilish MCHJ", phone: "+998 71 200 11 22", address: "Sergeli", balance: 0, hasOperations: true }];
   });
 
   useEffect(() => {
     localStorage.setItem('app_suppliers', JSON.stringify(suppliers));
   }, [suppliers]);
 
-  // Xarajatlar va xarajat asoslari state
   const [expenseTypes, setExpenseTypes] = useState(() => {
     const saved = localStorage.getItem('app_expense_types');
     if (saved) { try { return JSON.parse(saved); } catch (e) {} }
-    return [
-      { id: 1, name: "Ijara to'lovi" },
-      { id: 2, name: "Kommunal to'lovlar" },
-      { id: 3, name: "Transport va yetkazish" },
-      { id: 4, name: "Boshqa xarajatlar" }
-    ];
+    return [{ id: 1, name: "Ijara to'lovi" }];
   });
 
   useEffect(() => {
@@ -97,14 +89,67 @@ export default function App() {
   const [expenses, setExpenses] = useState(() => {
     const saved = localStorage.getItem('app_expenses');
     if (saved) { try { return JSON.parse(saved); } catch (e) {} }
-    return [
-      { id: "X-1001", date: "2026-11-10", basis: "Ijara to'lovi", amount: 1500000, comment: "Noyabr oyi uchun" }
-    ];
+    return [{ id: "X-1001", date: "2026-11-10", basis: "Ijara to'lovi", amount: 1500000, comment: "Noyabr oyi uchun" }];
   });
 
   useEffect(() => {
     localStorage.setItem('app_expenses', JSON.stringify(expenses));
   }, [expenses]);
+
+  const [payments, setPayments] = useState(() => {
+    const saved = localStorage.getItem('app_payments');
+    if (saved) { try { return JSON.parse(saved); } catch (e) {} }
+    return [{ id: "T-1001", date: "2026-11-10", targetType: "customer", targetId: 1, targetName: "Anvar Toshmatov", action: "in", amount: 200000 }];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_payments', JSON.stringify(payments));
+  }, [payments]);
+
+  const [returnsList, setReturnsList] = useState(() => {
+    const saved = localStorage.getItem('app_returns');
+    if (saved) { try { return JSON.parse(saved); } catch (e) {} }
+    return [
+      { 
+        id: "Q-1001", 
+        date: "2026-11-10", 
+        returnType: "customer", 
+        targetId: 1, 
+        targetName: "Anvar Toshmatov", 
+        totalAmount: 85000, 
+        refundAmount: 85000,
+        items: [{ productId: 1, productName: "Sement M-500", qty: 1, price: 85000 }] 
+      }
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_returns', JSON.stringify(returnsList));
+  }, [returnsList]);
+
+  const [sales, setSales] = useState(() => {
+    const saved = localStorage.getItem('app_sales');
+    if (saved) { try { return JSON.parse(saved); } catch (e) {} }
+    return [
+      {
+        id: "S-1001",
+        date: "2026-11-10",
+        customerId: 1,
+        customerName: "Anvar Toshmatov",
+        items: [{ productId: 1, name: "Sement M-500", qty: 2, price: 85000, costPrice: 75000 }],
+        subTotal: 170000,
+        discount: 0,
+        totalAmount: 170000,
+        cashAmount: 170000,
+        cardAmount: 0,
+        debt: 0
+      }
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_sales', JSON.stringify(sales));
+  }, [sales]);
 
   const handleLogout = () => {
     alert("Dasturdan chiqildi!");
@@ -118,7 +163,7 @@ export default function App() {
         </button>
 
         <button onClick={() => setActiveTab('home')} className="text-lg font-bold tracking-tight text-blue-600 hover:opacity-90 cursor-pointer truncate max-w-[200px]">
-          {settings.shopName || "SAVDO DASTURI"}
+          {settings.shopName || "Mening Do'konim"}
         </button>
 
         <div className="relative">
@@ -183,15 +228,19 @@ export default function App() {
 
       <main className="flex-1 p-4 max-w-4xl mx-auto w-full">
         {activeTab === 'home' && <Home settings={settings} />}
-        {activeTab === 'kirim' && <Kirim products={products} setProducts={setProducts} suppliers={suppliers} setSuppliers={setSuppliers} />}
-        {activeTab === 'xarajatlar' && <Xarajatlar expenses={expenses} setExpenses={setExpenses} expenseTypes={expenseTypes} setExpenseTypes={setExpenseTypes} />}
-        {activeTab === 'ombor' && <Ombor products={products} setProducts={setProducts} />}
-        {activeTab === 'mijozlar' && <Mijozlar customers={customers} setCustomers={setCustomers} />}
-        {activeTab === 'taminotchilar' && <Taminotchilar suppliers={suppliers} setSuppliers={setSuppliers} />}
-        {activeTab === 'xodimlar' && <Xodimlar employees={employees} setEmployees={setEmployees} />}
+        {activeTab === 'kirim' && <Kirim products={products} setProducts={setProducts} suppliers={suppliers} setSuppliers={setSuppliers} settings={settings} />}
+        {activeTab === 'savdo' && <Savdo sales={sales} setSales={setSales} products={products} setProducts={setProducts} customers={customers} setCustomers={setCustomers} settings={settings} />}
+        {activeTab === 'tolov' && <Tolov payments={payments} setPayments={setPayments} customers={customers} setCustomers={setCustomers} suppliers={suppliers} setSuppliers={setSuppliers} settings={settings} />}
+        {activeTab === 'xarajatlar' && <Xarajatlar expenses={expenses} setExpenses={setExpenses} expenseTypes={expenseTypes} setExpenseTypes={setExpenseTypes} settings={settings} />}
+        {activeTab === 'qaytarish' && <TovarQaytarish returnsList={returnsList} setReturnsList={setReturnsList} customers={customers} setCustomers={setCustomers} suppliers={suppliers} setSuppliers={setSuppliers} products={products} setProducts={setProducts} settings={settings} />}
+        {activeTab === 'hisobotlar' && <Hisobotlar products={products} sales={sales} payments={payments} expenses={expenses} returnsList={returnsList} customers={customers} suppliers={suppliers} employees={employees} settings={settings} />}
+        {activeTab === 'ombor' && <Ombor products={products} setProducts={setProducts} settings={settings} />}
+        {activeTab === 'mijozlar' && <Mijozlar customers={customers} setCustomers={setCustomers} settings={settings} />}
+        {activeTab === 'taminotchilar' && <Taminotchilar suppliers={suppliers} setSuppliers={setSuppliers} settings={settings} />}
+        {activeTab === 'xodimlar' && <Xodimlar employees={employees} setEmployees={setEmployees} settings={settings} />}
         {activeTab === 'sozlamalar' && <Sozlamalar settings={settings} setSettings={setSettings} />}
 
-        {activeTab !== 'home' && activeTab !== 'kirim' && activeTab !== 'xarajatlar' && activeTab !== 'ombor' && activeTab !== 'mijozlar' && activeTab !== 'taminotchilar' && activeTab !== 'xodimlar' && activeTab !== 'sozlamalar' && (
+        {activeTab !== 'home' && activeTab !== 'kirim' && activeTab !== 'savdo' && activeTab !== 'tolov' && activeTab !== 'xarajatlar' && activeTab !== 'qaytarish' && activeTab !== 'hisobotlar' && activeTab !== 'ombor' && activeTab !== 'mijozlar' && activeTab !== 'taminotchilar' && activeTab !== 'xodimlar' && activeTab !== 'sozlamalar' && (
           <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center">
             <h2 className="text-xl font-bold text-slate-700 uppercase tracking-wide">{activeTab} bo'limi</h2>
             <p className="text-slate-400 text-sm mt-1">Ushbu bo'lim mantiqiy funksionalligi tayyorlanmoqda...</p>

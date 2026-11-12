@@ -8,4 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/savdo-dasturi/', // <-- Mana shu qatorni qo'shasiz (repository nomingiz bilan bir xil bo'lishi shart)
 })
